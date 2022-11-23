@@ -1,9 +1,18 @@
 from turtle import Turtle, Screen
+import string
+
+
+def create_alphabet():
+    generate_alphabet = []
+    for _ in range (2):
+        generate = list(string.ascii_lowercase)
+        generate_alphabet += generate
+    return generate_alphabet
 
 
 def setup():
-    turtle.goto(0, 200)
-    turtle.write("Shift Cipher", align="center", font=("courier", 60, "normal"))
+    turtle.goto(100, 200)
+    turtle.write("Shift Cipher🗝️", align="center", font=("courier", 60, "normal"))
     shift_direction = screen.textinput(title="Shift Direction",
                                        prompt="Type 'encode' to encrypt, type 'decode' to decrypt")
     turtle.goto(-300, 150)
@@ -19,7 +28,7 @@ def load_gui():
 
 
 def data():
-    text_input = screen.textinput(title="Message", prompt="Type your message")
+    text_input = screen.textinput(title="Message", prompt="Type your message").lower()
     shift_num = int(screen.textinput(title="Shift Number", prompt="Type the shift number:"))
     shift_num = shift_num % 26
     turtle.goto(-300, 120)
@@ -40,6 +49,10 @@ def cipher(plain_text, shift_amount, directional_encryption):
             end_letter += new_letter
         else:
             end_letter += every_letter
+    return end_letter
+
+
+def print_end_letter(end_letter):
     turtle.goto(-300, 95)
     turtle.write(f"The new word is: ", align="left", font=("courier", 15, "normal"))
     turtle.goto(-300, 70)
@@ -63,9 +76,9 @@ turtle.color("white")
 turtle.penup()
 turtle.shape("turtle")
 
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-            'v', 'w', 'x', 'y', 'z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q'
-            , 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+alphabet = create_alphabet()
+print(alphabet)
 
 should_continue = True
 while should_continue:
@@ -79,7 +92,8 @@ while should_continue:
         turtle.write("Please wait while the turtle is encoding the message", align="left",
                      font=("courier", 15, "normal"))
         load_gui()
-        cipher(plain_text=text, directional_encryption=direction, shift_amount=shift)
+        final_message = cipher(plain_text=text, directional_encryption=direction, shift_amount=shift)
+        print_end_letter(end_letter=final_message)
 
     elif direction == "decode":
         turtle.write("Decoding your message", align="left", font=("courier", 15, "normal"))
@@ -88,5 +102,10 @@ while should_continue:
                      font=("courier", 15, "normal"))
         load_gui()
         cipher(plain_text=text, directional_encryption=direction, shift_amount=shift)
+        final_message = cipher(plain_text=text, directional_encryption=direction, shift_amount=shift)
+        print_end_letter(end_letter=final_message)
+
+    else:
+        quit()
 
 screen.exitonclick()
